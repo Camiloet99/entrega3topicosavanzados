@@ -2,6 +2,7 @@ package com.ensayo3;
 
 import com.ensayo3.dto.responses.RegisterUserResponse;
 import io.restassured.http.ContentType;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -16,12 +17,15 @@ import java.time.Duration;
 import java.util.Random;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Slf4j
 public class Reto1Tests {
 
     private static final String BASE_URI = "https://demoqa.com/";
     private static final String PASSWORD = "StringTest0!";
+
     private WebDriver driver;
 
     @BeforeEach
@@ -44,32 +48,35 @@ public class Reto1Tests {
         return "user_" + username;
     }
 
-    @Test
-    public void registerUser() {
+    private RegisterUserResponse createUser(String registerUserRequest) {
         String uri = "Account/v1/User";
-        String userName = generateRandomUsername();
 
-        String registerUserRequestJson = "{\n" +
-                "    \"userName\": \"" + userName + "\",\n" +
-                "    \"password\": \"" + PASSWORD + "\"\n" +
-                "}";
-
-        RegisterUserResponse response = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
-                .body(registerUserRequestJson)
+                .body(registerUserRequest)
                 .when()
                 .post(BASE_URI + uri)
                 .then()
                 .statusCode(201)
                 .extract().as(RegisterUserResponse.class);
+    }
+
+    @Test
+    public void registerUser() {
+        String userName = generateRandomUsername();
+        String registerUserRequestJson = "{\n" +
+                "    \"userName\": \"" + userName + "\",\n" +
+                "    \"password\": \"" + PASSWORD + "\"\n" +
+                "}";
+        RegisterUserResponse response = createUser(registerUserRequestJson);
 
         assertNotNull(response);
         assertEquals(response.getUsername(), userName);
         assertNotNull(response.getUserID());
-        System.out.println("User " + userName + " validated for userID: " + response.getUserID());
+        log.info("User {} validated for userID: {}", userName, response.getUserID());
 
-        System.out.println("### Logining with user " + userName);
+        log.info("### Logining with user {}", userName);
         driver.get("https://demoqa.com/login");
 
         WebElement userNameField = driver.findElement(By
@@ -82,7 +89,7 @@ public class Reto1Tests {
         WebElement loginButton = driver.findElement(By.xpath("//button[text()='Login']"));
         loginButton.click();
 
-        System.out.println("User logged successfully!... Removing account!");
+        log.info("User logged successfully!... Removing account!");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         WebElement deleteAccountButton = wait.until(ExpectedConditions
@@ -92,13 +99,13 @@ public class Reto1Tests {
         deleteAccountButton.click();
         WebElement okButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("closeSmallModal-ok")));
         okButton.click();
-        System.out.println("Account " + userName + " removed successfully!");
+        log.info("Account {} removed successfully!", userName);
 
         wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
         alert.accept();
 
-        System.out.println("Trying to login again with removed user credentials...");
+        log.info("Trying to login again with removed user credentials...");
 
         userNameField = driver.findElement(By
                 .xpath("//label[text()='UserName : ']/following::input[1]"));
@@ -114,8 +121,8 @@ public class Reto1Tests {
 
         assertEquals("Invalid username or password!", errorElement.getText());
 
-        System.out.println("Error message validated successfully!");
+        log.info("Error message validated successfully!");
         driver.close();
     }
-    
+
 }
