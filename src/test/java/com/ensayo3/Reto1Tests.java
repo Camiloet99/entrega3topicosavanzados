@@ -26,7 +26,6 @@ public class Reto1Tests {
 
     @BeforeEach
     public void beforeAll() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
@@ -85,10 +84,10 @@ public class Reto1Tests {
 
         System.out.println("User logged successfully!... Removing account!");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         WebElement deleteAccountButton = wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By
-                        .xpath("//button[text()='Delete Account' and @type='button']")));
+                        .xpath("//button[@id='submit' and text()='Delete Account'] ")));
 
         deleteAccountButton.click();
         WebElement okButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("closeSmallModal-ok")));
@@ -101,8 +100,14 @@ public class Reto1Tests {
 
         System.out.println("Trying to login again with removed user credentials...");
 
+        userNameField = driver.findElement(By
+                .xpath("//label[text()='UserName : ']/following::input[1]"));
+        passwordField = driver.findElement(By
+                .xpath("//label[text()='Password : ']/following::input[1]"));
+
         userNameField.sendKeys(userName);
         passwordField.sendKeys(PASSWORD);
+        loginButton = driver.findElement(By.xpath("//button[text()='Login']"));
         loginButton.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//p[@id='name' and text()='Invalid username or password!']")));
