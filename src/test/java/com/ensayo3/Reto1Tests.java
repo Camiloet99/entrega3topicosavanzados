@@ -109,12 +109,13 @@ public class Reto1Tests {
         passwordField.sendKeys(PASSWORD);
         loginButton = driver.findElement(By.xpath("//button[text()='Login']"));
         loginButton.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By
+        WebElement errorElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//p[@id='name' and text()='Invalid username or password!']")));
 
+        assertEquals("Invalid username or password!", errorElement.getText());
+
+        System.out.println("Error message validated successfully!");
         driver.close();
-
     }
-
-
+    
 }
