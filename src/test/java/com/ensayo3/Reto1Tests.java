@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Reto1Tests {
 
     private static final String BASE_URI = "https://demoqa.com/";
-    private static final String USER_NAME = "testUserCJP3";
     private static final String PASSWORD = "StringTest0!";
     private WebDriver driver;
 
@@ -31,12 +31,27 @@ public class Reto1Tests {
         driver.manage().window().maximize();
     }
 
+    public static String generateRandomUsername() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder username = new StringBuilder();
+        Random random = new Random();
+        int length = 10;
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            username.append(characters.charAt(index));
+        }
+
+        return "user_" + username;
+    }
+
     @Test
     public void registerUser() {
         String uri = "Account/v1/User";
+        String userName = generateRandomUsername();
 
         String registerUserRequestJson = "{\n" +
-                "    \"userName\": \"" + USER_NAME + "\",\n" +
+                "    \"userName\": \"" + userName + "\",\n" +
                 "    \"password\": \"" + PASSWORD + "\"\n" +
                 "}";
 
@@ -51,18 +66,18 @@ public class Reto1Tests {
                 .extract().as(RegisterUserResponse.class);
 
         assertNotNull(response);
-        assertEquals(response.getUsername(), USER_NAME);
+        assertEquals(response.getUsername(), userName);
         assertNotNull(response.getUserID());
-        System.out.println("User " + USER_NAME + " validated for userID: " + response.getUserID());
+        System.out.println("User " + userName + " validated for userID: " + response.getUserID());
 
-        System.out.println("### Logining with user " + USER_NAME);
+        System.out.println("### Logining with user " + userName);
         driver.get("https://demoqa.com/login");
 
         WebElement userNameField = driver.findElement(By
                 .xpath("//label[text()='UserName : ']/following::input[1]"));
         WebElement passwordField = driver.findElement(By
                 .xpath("//label[text()='Password : ']/following::input[1]"));
-        userNameField.sendKeys(USER_NAME);
+        userNameField.sendKeys(userName);
         passwordField.sendKeys(PASSWORD);
 
         WebElement loginButton = driver.findElement(By.xpath("//button[text()='Login']"));
@@ -70,14 +85,15 @@ public class Reto1Tests {
 
         System.out.println("User logged successfully!... Removing account!");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement deleteAccountButton = wait.until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//button[text()='Delete Account']")));
+                .visibilityOfElementLocated(By
+                        .xpath("//button[text()='Delete Account' and @type='button']")));
 
         deleteAccountButton.click();
         WebElement okButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("closeSmallModal-ok")));
         okButton.click();
-        System.out.println("Account " + USER_NAME + " removed successfully!");
+        System.out.println("Account " + userName + " removed successfully!");
 
         wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
@@ -85,18 +101,13 @@ public class Reto1Tests {
 
         System.out.println("Trying to login again with removed user credentials...");
 
-        userNameField.sendKeys(USER_NAME);
+        userNameField.sendKeys(userName);
         passwordField.sendKeys(PASSWORD);
         loginButton.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By
                 .xpath("//p[@id='name' and text()='Invalid username or password!']")));
 
         driver.close();
-
-    }
-
-    @Test
-    public void loginUser() {
 
     }
 
