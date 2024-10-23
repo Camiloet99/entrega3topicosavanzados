@@ -76,7 +76,7 @@ public class Reto1Tests {
         assertNotNull(response.getUserID());
         log.info("User {} validated for userID: {}", userName, response.getUserID());
 
-        log.info("### Logining with user {}", userName);
+        log.info("### Logging in with user {}", userName);
         driver.get("https://demoqa.com/login");
 
         WebElement userNameField = driver.findElement(By

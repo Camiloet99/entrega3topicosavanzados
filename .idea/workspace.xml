@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b9d89df-ea1f-45b6-8810-3cc35e8c0529" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ensayo3/Reto2Tests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ensayo3/dto/responses/AstronomyPictureResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ensayo3/dto/responses/LandsatResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ensayo3/dto/responses/NEOResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/ensayo3/Reto1Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ensayo3/Reto1Tests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
