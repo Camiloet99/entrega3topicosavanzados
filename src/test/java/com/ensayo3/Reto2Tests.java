@@ -66,7 +66,8 @@ public class Reto2Tests {
 
     @Test
     public void getAstronomyPictureOfTheDayTest() {
-        String uri = NASA_BASE_URI + String.format("planetary/apod?api_key=%s", NASA_API_KEY);
+        String date = "2014-10-22";
+        String uri = NASA_BASE_URI + String.format("planetary/apod?api_key=%s&date=%s", NASA_API_KEY, date);
 
         AstronomyPictureResponse response = given()
                 .contentType(ContentType.JSON)

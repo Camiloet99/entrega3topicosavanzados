@@ -1,0 +1,143 @@
+{
+    "info": {
+        "name": "NASA APIs Collection",
+        "description": "Postman collection for NASA Apis",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "APOD - Astronomy Picture of the Day",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/planetary/apod?api_key={{api_key}}&date={{date}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "planetary",
+                        "apod"
+                    ],
+                    "query": [
+                        {
+                            "key": "api_key",
+                            "value": "{{api_key}}"
+                        },
+                        {
+                            "key": "date",
+                            "value": "{{date}}"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Asteroids - NeoWs Feed",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/neo/rest/v1/feed?start_date={{start_date}}&end_date={{end_date}}&api_key={{api_key}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "neo",
+                        "rest",
+                        "v1",
+                        "feed"
+                    ],
+                    "query": [
+                        {
+                            "key": "start_date",
+                            "value": "{{start_date}}"
+                        },
+                        {
+                            "key": "end_date",
+                            "value": "{{end_date}}"
+                        },
+                        {
+                            "key": "api_key",
+                            "value": "{{api_key}}"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Earth Assets",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/planetary/earth/assets?lon={{lon}}&lat={{lat}}&date={{date}}&dim={{dim}}&api_key={{api_key}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "planetary",
+                        "earth",
+                        "assets"
+                    ],
+                    "query": [
+                        {
+                            "key": "lon",
+                            "value": "{{lon}}"
+                        },
+                        {
+                            "key": "lat",
+                            "value": "{{lat}}"
+                        },
+                        {
+                            "key": "date",
+                            "value": "{{date}}"
+                        },
+                        {
+                            "key": "dim",
+                            "value": "{{dim}}"
+                        },
+                        {
+                            "key": "api_key",
+                            "value": "{{api_key}}"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "https://api.nasa.gov"
+        },
+        {
+            "key": "api_key",
+            "value": "eSbA0bwPm6RXjgyWYykRUFagLadym4QOwG3pjAoW"
+        },
+        {
+            "key": "date",
+            "value": "2024-10-01"
+        },
+        {
+            "key": "start_date",
+            "value": "2024-10-01"
+        },
+        {
+            "key": "end_date",
+            "value": "2024-10-02"
+        },
+        {
+            "key": "lat",
+            "value": "75.57"
+        },
+        {
+            "key": "lon",
+            "value": "62.19"
+        },
+        {
+            "key": "dim",
+            "value": "0.1"
+        }
+    ]
+}
